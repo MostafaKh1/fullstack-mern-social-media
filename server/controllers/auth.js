@@ -27,9 +27,9 @@ export const register = async (req, res) => {
       picturePath,
       friends,
       location,
+      impression: Math.floor(Math.random() * 1000),
       occupation,
-      viewedProfile: Math.floor(Math.random() * 10000),
-      impressions: Math.floor(Math.random() * 10000),
+      viewedProfile: Math.floor(Math.random() * 1000),
     });
     const savedUser = await newUser.save();
     res.status(201).json(savedUser);
@@ -43,7 +43,7 @@ export const login = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email: email });
     if (!user) {
-      return res.status(400).json({ msg: `use dose not exist` });
+      return res.status(400).json({ msg: `user dose not exist` });
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {

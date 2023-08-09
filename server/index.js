@@ -46,6 +46,9 @@ const upload = multer({ storage });
 
 app.post("/auth/register", upload.single("picture"), register);
 app.post("/posts", upload.single("picture"), createPosts);
+app.get("/", (req, res) => {
+  res.send("app is Working");
+});
 // routes
 app.use("/auth", authRouter);
 app.use("/users", usersRouter);
