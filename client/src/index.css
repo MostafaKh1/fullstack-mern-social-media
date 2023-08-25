@@ -14,4 +14,21 @@
   label {
     @apply text-center md:text-start text-lg py-2;
   }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    @apply text-darkColor dark:text-gray-200;
+  }
+
+  p,
+  span {
+    @apply text-[#D8D6D8] dark:text-[#484748];
+  }
+
+  hr {
+    @apply h-[1px] bg-[#D8D6D8] dark:bg-[#484748] border-none;
+  }
 }

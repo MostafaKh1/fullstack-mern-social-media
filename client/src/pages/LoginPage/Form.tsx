@@ -1,8 +1,11 @@
 import { Formik, FormikHelpers, FormikProps } from "formik";
-
 import * as yup from "yup";
 import Dropzone from "react-dropzone";
 import { useState } from "react";
+import { setUser } from "../../store/authSlice";
+import { Button } from "@mui/material";
+import { UseAppDispatch } from "../../store";
+import { useNavigate } from "react-router-dom";
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
@@ -14,10 +17,6 @@ const registerSchema = yup.object().shape({
   picture: yup.string(),
 });
 
-interface UserState {
-  user: FormValuesRegister[];
-  token: string;
-}
 interface FormValuesRegister {
   firstName: string;
   lastName: string;
@@ -56,13 +55,12 @@ const initValueLogin = {
 
 export default function Form() {
   const [currentPage, setCurrentPage] = useState("login");
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const isLogin = currentPage === "login";
   const isRegister = currentPage === "register";
+  const dispatch = UseAppDispatch();
+  // const dispatch = useDispatch();
 
-  const [user, setUser] = useState<UserState | null>(null);
-
-  console.log(user);
   const register = async (
     values: FormValuesRegister,
     submitProps: FormikType
@@ -86,7 +84,6 @@ export default function Form() {
     });
 
     const saveUser = await saveUserRes.json();
-    console.log(saveUser);
     // submitProps.resetForm();
     if (saveUser) {
       setCurrentPage("login");
@@ -103,10 +100,13 @@ export default function Form() {
     const loggedIn = await loggedInResponse.json();
     onSubmitProps.resetForm();
     if (loggedIn) {
-      setUser({
-        user: loggedIn.user,
-        token: loggedIn.token,
-      });
+      dispatch(
+        setUser({
+          user: loggedIn.user,
+          token: loggedIn.token,
+        })
+      );
+      navigate("/home");
     }
   };
 
@@ -198,7 +198,7 @@ export default function Form() {
                     onChange={handleChange}
                     value={(values as FormValuesRegister).password}
                     name="password"
-                    type="text"
+                    type="password"
                   />
                 </div>
                 <div className=" border  border-blue-400 flex my-6">
@@ -217,7 +217,9 @@ export default function Form() {
                         <input {...getInputProps()} />
                         {!(values as FormValuesRegister).picture ? (
                           <div className="flex">
-                            <p>add Picture Here</p>
+                            <span className="text-blue-300">
+                              Add Picture Here
+                            </span>
                           </div>
                         ) : (
                           <div className="flex justify-between">
@@ -267,7 +269,7 @@ export default function Form() {
                     onChange={handleChange}
                     value={(values as FormValuesRegister).password}
                     name="password"
-                    type="text"
+                    type="password"
                   />
                 </div>
               </div>
@@ -275,12 +277,14 @@ export default function Form() {
 
             {/* Button */}
             <div className="p-4">
-              <button
+              <Button
+                variant="contained"
+                color="success"
                 type="submit"
-                className="text-white   rounded-md bg-green-400 flex justify-center mx-auto w-full py-4 font-semibold"
+                className=" flex w-full justify-center text-slate-100 bg-green-500 py-2 rounded-md"
               >
                 {isRegister ? "Register" : "Login"}
-              </button>
+              </Button>
 
               <div
                 className="pt-8 pb-2 text-green-400 cursor-pointer"
