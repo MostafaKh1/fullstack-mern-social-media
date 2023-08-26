@@ -27,7 +27,7 @@ function Navbar() {
     }
   }, [user]);
   return (
-    <nav className="container py-5 px-5 ">
+    <nav className="container py-5  ">
       <div className="flex justify-between">
         <h1 className="text-green-500 dark:text-green-400 text-2xl">
           Green Social

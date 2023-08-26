@@ -14,7 +14,7 @@ const registerSchema = yup.object().shape({
   password: yup.string().required("required"),
   location: yup.string().required("required"),
   occupation: yup.string().required("required"),
-  picture: yup.string(),
+  picture: yup.string().required("required"),
 });
 
 interface FormValuesRegister {
@@ -24,7 +24,7 @@ interface FormValuesRegister {
   password: string;
   location: string;
   occupation: string;
-  picture?: File;
+  picture: File;
 }
 
 type FormikType = FormikHelpers<FormValuesRegister | FormValuesLogin>;
@@ -45,7 +45,7 @@ const initValueRegister = {
   password: "",
   location: "",
   occupation: "",
-  picture: "",
+  picture: null,
 };
 
 const initValueLogin = {
@@ -65,22 +65,20 @@ export default function Form() {
     values: FormValuesRegister,
     submitProps: FormikType
   ) => {
-    const forData = new FormData();
+    const formData = new FormData();
 
-    forData.append("firstName", values.firstName);
-    forData.append("lastName", values.lastName);
-    forData.append("email", values.email);
-    forData.append("password", values.password);
-    forData.append("location", values.location);
-    forData.append("occupation", values.occupation);
+    formData.append("firstName", values.firstName);
+    formData.append("lastName", values.lastName);
+    formData.append("email", values.email);
+    formData.append("password", values.password);
+    formData.append("location", values.location);
+    formData.append("occupation", values.occupation);
+    formData.append("picturePath", values.picture.name);
 
-    if (values.picture) {
-      forData.append("picture", values.picture.name);
-    }
-
+    console.log(formData);
     const saveUserRes = await fetch("http://localhost:5000/auth/register", {
       method: "POST",
-      body: forData,
+      body: formData,
     });
 
     const saveUser = await saveUserRes.json();
