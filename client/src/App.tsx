@@ -7,7 +7,6 @@ function App() {
   const { token } = UseAppSelector((state) => state.user);
   const isAuth = Boolean(token);
 
-  console.log(isAuth);
   return (
     <main>
       <BrowserRouter>

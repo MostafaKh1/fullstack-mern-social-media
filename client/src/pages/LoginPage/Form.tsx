@@ -67,15 +67,15 @@ export default function Form() {
   ) => {
     const formData = new FormData();
 
-    formData.append("firstName", values.firstName);
-    formData.append("lastName", values.lastName);
-    formData.append("email", values.email);
-    formData.append("password", values.password);
-    formData.append("location", values.location);
-    formData.append("occupation", values.occupation);
-    formData.append("picturePath", values.picture.name);
+    for (const [key, value] of Object.entries(values)) {
+      if (key === "picture") {
+        formData.append("picturePath", value.name);
+        formData.append("picture", value);
+      } else {
+        formData.append(key, value);
+      }
+    }
 
-    console.log(formData);
     const saveUserRes = await fetch("http://localhost:5000/auth/register", {
       method: "POST",
       body: formData,
@@ -201,13 +201,20 @@ export default function Form() {
                 </div>
                 <div className=" border  border-blue-400 flex my-6">
                   <Dropzone
-                    acceptedFiles=".jpg,.jpeg,.png"
                     multiple={false}
                     onDrop={(acceptedFiles: File[]) => {
-                      setFieldValue("picture", acceptedFiles[0]);
+                      const typeFiles = [
+                        "image/jpeg",
+                        "image/jpg",
+                        "image/png",
+                      ];
+                      const file = acceptedFiles[0];
+                      if (file && typeFiles.includes(file.type)) {
+                        setFieldValue("picture", acceptedFiles[0]);
+                      }
                     }}
                   >
-                    {({ getRootProps, getInputProps }: any) => (
+                    {({ getRootProps, getInputProps }) => (
                       <div
                         {...getRootProps()}
                         className=" p-4 w-full cursor-pointer h-full"
@@ -215,9 +222,7 @@ export default function Form() {
                         <input {...getInputProps()} />
                         {!(values as FormValuesRegister).picture ? (
                           <div className="flex">
-                            <span className="text-blue-300">
-                              Add Picture Here
-                            </span>
+                            <span className="text-black">Add Picture Here</span>
                           </div>
                         ) : (
                           <div className="flex justify-between">

@@ -5,7 +5,6 @@ interface userImageProps {
   picturePath: string;
 }
 function UserImage({ picturePath }: userImageProps) {
-  console.log(picturePath);
   return (
     <div>
       <Avatar

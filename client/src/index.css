@@ -24,7 +24,7 @@
   }
 
   p {
-    @apply text-[#D8D6D8] dark:text-[#484748];
+    @apply text-[#D8D6D8] dark:text-[#484748] text-base lg:text-xl;
   }
   span {
     @apply text-[#9B999D] dark:text-gray-200 font-semibold;
