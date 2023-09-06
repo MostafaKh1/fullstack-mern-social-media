@@ -8,7 +8,7 @@ function Navbar() {
   const [menu, setMenu] = useState<null | HTMLElement>(null);
   const [fullName, setFullName] = useState<string | null>(null);
   const open = Boolean(menu);
-  const { user } = UseAppSelector((state) => state.user);
+  const {user } = UseAppSelector((state) => state.user);
 
   const { theme, switchTheme } = useTheme();
 

@@ -6,7 +6,9 @@
   @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,400;1,300&display=swap");
   body {
     font-family: "Lato", sans-serif;
+    @apply bg-gray-100 dark:bg-black;
   }
+
   input {
     @apply border border-[#7FBA5C] px-4 py-2 outline-none;
   }

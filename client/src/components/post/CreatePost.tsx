@@ -6,7 +6,8 @@ import { Button } from "@mui/material";
 import { HiPhotograph, HiVideoCamera } from "react-icons/hi";
 import { BsCalendarEventFill } from "react-icons/bs";
 import { MdOutlineEdit } from "react-icons/md";
-
+import { setPosts } from "../../store/postSlice";
+import { UseAppDispatch } from "./../../store/index";
 interface CreatePostProps {
   userId: string;
   image: string;
@@ -17,6 +18,7 @@ function CreatePost({ userId, image, token }: CreatePostProps) {
   const [postText, setPostText] = useState<string>("");
   const [imagePost, setImagePost] = useState<File | null>(null);
   const iconSize = 28;
+  const dispatch = UseAppDispatch();
 
   const handlePost = async () => {
     if (!imagePost && !postText) {
@@ -35,14 +37,16 @@ function CreatePost({ userId, image, token }: CreatePostProps) {
       headers: { Authorization: `Decode ${token}` },
       body: formData,
     });
-    const data = await response.json();
-    console.log(data);
-    setImagePost(null);
-    setIsImage(false);
-    setPostText("");
+    const posts = await response.json();
+    if (posts) {
+      dispatch(setPosts(posts));
+      setImagePost(null);
+      setIsImage(false);
+      setPostText("");
+    }
   };
   return (
-    <div className="rounded-xl   bg-white  md:w-[400px] lg:w-[600px] shadow-lg border border-gray-200  p-4  dark:bg-darkMain  dark:border-gray-950">
+    <div className="rounded-xl   bg-white  md:w-[300px] lg:w-[700px] shadow-lg border border-gray-200  p-4  dark:bg-darkMain  dark:border-gray-950">
       <div className="flex flex-col  gap-y-4 gap-x-4 w-full  justify-between items-center md:flex-row">
         <UserImage picturePath={image} />
         <input

@@ -11,3 +11,15 @@ export interface UserInterface {
   impression: number;
   viewedProfile: number;
 }
+export interface PostsInterface {
+  _id: string;
+  userId: string;
+  firstName: string;
+  lastName: string;
+  location: string;
+  picturePath: string;
+  description: string;
+  userPicturePath: string;
+  likes: string[];
+  comments: string[];
+}

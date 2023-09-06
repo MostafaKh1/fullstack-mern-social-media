@@ -72,7 +72,7 @@ export default function UserInfo({ id }: UserInfoProps) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="py-8  px-4 flex flex-col  bg-white shadow-lg  md:max-w-[500px] md:w-[450px]  max-h-[800px]  rounded-xl dark:bg-darkMain">
+    <div className="py-8  px-4 flex flex-col  bg-white shadow-lg  md:max-w-[500px] md:w-[450px]  h-[550px]  rounded-xl dark:bg-darkMain">
       <div className=" flex  mb-2 pb-4 items-center">
         <div className="mx-auto">
           <UserImage picturePath={Image} />
