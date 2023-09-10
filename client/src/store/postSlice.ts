@@ -16,9 +16,18 @@ export const postSlice = createSlice({
     setPosts: (state, action: PayloadAction<PostsInterface[] | null>) => {
       state.posts = action.payload;
     },
+    setPost: (state, action: PayloadAction<PostsInterface | null>) => {
+      if (state.posts) {
+        const updatePost = state.posts?.map((post) => {
+          if (post._id === action.payload?._id) return action.payload;
+          return post;
+        });
+        state.posts = updatePost;
+      }
+    },
   },
 });
 
 export default postSlice;
 
-export const { setPosts } = postSlice.actions;
+export const { setPosts, setPost } = postSlice.actions;

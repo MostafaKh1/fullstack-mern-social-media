@@ -2,7 +2,7 @@ export interface UserInterface {
   _id: string;
   firstName: string;
   lastName: string;
-  friends: string;
+  friends: FriendInterface[];
   email: string;
   password: string;
   location: string;
@@ -20,6 +20,15 @@ export interface PostsInterface {
   picturePath: string;
   description: string;
   userPicturePath: string;
-  likes: string[];
+  likes: Map<string, string>;
   comments: string[];
+}
+
+interface FriendInterface {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  location: string;
+  occupation: string;
+  picturePath: string;
 }

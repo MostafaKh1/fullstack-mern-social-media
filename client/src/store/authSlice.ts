@@ -21,9 +21,17 @@ export const authSlice = createSlice({
         state.token = action.payload.token;
       }
     },
+
+    setFriend: (state, action) => {
+      if (state.user) {
+        state.user.friends = action.payload;
+      } else {
+        console.log("Friend  is not exist");
+      }
+    },
   },
 });
 
 export default authSlice;
 
-export const { setUser } = authSlice.actions;
+export const { setUser, setFriend } = authSlice.actions;

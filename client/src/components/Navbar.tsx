@@ -8,7 +8,7 @@ function Navbar() {
   const [menu, setMenu] = useState<null | HTMLElement>(null);
   const [fullName, setFullName] = useState<string | null>(null);
   const open = Boolean(menu);
-  const {user } = UseAppSelector((state) => state.user);
+  const { user } = UseAppSelector((state) => state.user);
 
   const { theme, switchTheme } = useTheme();
 
@@ -33,12 +33,14 @@ function Navbar() {
           Green Social
         </h1>
         <div>
-          <span
-            onClick={switchTheme}
-            className="text-gray-400 mx-2 transition-all duration-200 hover:text-black dark:hover:text-white"
-          >
-            {theme === "light" ? <LightMode /> : <DarkMode />}
-          </span>
+          <Button>
+            <span
+              onClick={switchTheme}
+              className="text-gray-400 mx-2 cursor-pointer transition-all duration-200 hover:text-black dark:hover:text-white"
+            >
+              {theme === "light" ? <LightMode /> : <DarkMode />}
+            </span>
+          </Button>
           <Button
             color="success"
             aria-controls={open ? "basic-menu" : undefined}

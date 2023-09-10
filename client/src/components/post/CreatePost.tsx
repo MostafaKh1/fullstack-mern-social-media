@@ -1,7 +1,7 @@
 import Dropzone from "react-dropzone";
 
 import UserImage from "../UserImage";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Button } from "@mui/material";
 import { HiPhotograph, HiVideoCamera } from "react-icons/hi";
 import { BsCalendarEventFill } from "react-icons/bs";
@@ -14,7 +14,6 @@ interface CreatePostProps {
   token: string;
 }
 function CreatePost({ userId, image, token }: CreatePostProps) {
-  const [isImage, setIsImage] = useState(false);
   const [postText, setPostText] = useState<string>("");
   const [imagePost, setImagePost] = useState<File | null>(null);
   const iconSize = 28;
@@ -41,12 +40,19 @@ function CreatePost({ userId, image, token }: CreatePostProps) {
     if (posts) {
       dispatch(setPosts(posts));
       setImagePost(null);
-      setIsImage(false);
       setPostText("");
     }
   };
+
+  const memoizedHandlePost = useCallback(handlePost, [
+    dispatch,
+    token,
+    userId,
+    imagePost,
+    postText,
+  ]);
   return (
-    <div className="rounded-xl   bg-white  md:w-[300px] lg:w-[700px] shadow-lg border border-gray-200  p-4  dark:bg-darkMain  dark:border-gray-950">
+    <div className="rounded-xl   bg-white  md:w-[400px] lg:w-[600px] shadow-lg border border-gray-200  p-4  dark:bg-darkMain  dark:border-gray-950">
       <div className="flex flex-col  gap-y-4 gap-x-4 w-full  justify-between items-center md:flex-row">
         <UserImage picturePath={image} />
         <input
@@ -60,52 +66,40 @@ function CreatePost({ userId, image, token }: CreatePostProps) {
         />
       </div>
       <div className="py-4">
-        {isImage && (
-          <Dropzone
-            multiple={false}
-            onDrop={(acceptedFiles: File[]) => {
-              const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
-              const file = acceptedFiles[0];
-              if (file && allowedTypes.includes(file.type)) {
-                setImagePost(acceptedFiles[0]);
-              }
-            }}
-          >
-            {({ getRootProps, getInputProps }) => (
-              <div
-                {...getRootProps()}
-                className=" p-4 w-full cursor-pointer rounded-lg mt-4 border  border-green-400"
-              >
-                <input {...getInputProps()} />
-                {!imagePost ? (
-                  <div className="flex">
-                    <span className=" dark:text-green-300">
-                      Add Picture Here
-                    </span>
-                  </div>
-                ) : (
-                  <div className="flex justify-between items-center">
-                    <p className=" text-sm   max-w-[600px] ">
-                      {imagePost?.name}
-                    </p>
-                    <Button>
-                      <MdOutlineEdit
-                        size={iconSize}
-                        className="text-gray-200"
-                      />
-                    </Button>
-                  </div>
-                )}
-              </div>
-            )}
-          </Dropzone>
-        )}
+        <Dropzone
+          multiple={false}
+          onDrop={(acceptedFiles: File[]) => {
+            const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+            const file = acceptedFiles[0];
+            if (file && allowedTypes.includes(file.type)) {
+              setImagePost(acceptedFiles[0]);
+            }
+          }}
+        >
+          {({ getRootProps, getInputProps }) => (
+            <div
+              {...getRootProps()}
+              className=" p-4 w-full cursor-pointer rounded-lg mt-4 border  border-green-400"
+            >
+              <input {...getInputProps()} />
+              {!imagePost ? (
+                <div className="flex">
+                  <span className=" dark:text-green-300">Add Picture Here</span>
+                </div>
+              ) : (
+                <div className="flex justify-between items-center">
+                  <p className=" text-sm   max-w-[600px] ">{imagePost?.name}</p>
+                  <Button>
+                    <MdOutlineEdit size={iconSize} className="text-gray-200" />
+                  </Button>
+                </div>
+              )}
+            </div>
+          )}
+        </Dropzone>
       </div>
       <div className="flex justify-between items-center px-0 py-2 md:px-3">
-        <Button
-          className="flex  flex-col  md:flex-row gap-y-1 items-center gap-x-2"
-          onClick={() => setIsImage(!isImage)}
-        >
+        <Button className="flex  flex-col  md:flex-row gap-y-1 items-center gap-x-2">
           <HiPhotograph size={iconSize} className="text-green-700 " />
           <span className=" text-sm">Photo</span>
         </Button>
@@ -118,7 +112,11 @@ function CreatePost({ userId, image, token }: CreatePostProps) {
           <span className=" text-sm">Event</span>
         </Button>
         <div>
-          <Button variant="contained" color="success" onClick={handlePost}>
+          <Button
+            variant="contained"
+            color="success"
+            onClick={memoizedHandlePost}
+          >
             Post
           </Button>
         </div>
