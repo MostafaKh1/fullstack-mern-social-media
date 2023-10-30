@@ -6,6 +6,7 @@ import { setUser } from "../../store/authSlice";
 import { Button } from "@mui/material";
 import { UseAppDispatch } from "../../store";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
@@ -59,7 +60,6 @@ export default function Form() {
   const isLogin = currentPage === "login";
   const isRegister = currentPage === "register";
   const dispatch = UseAppDispatch();
-  // const dispatch = useDispatch();
 
   const register = async (
     values: FormValuesRegister,
@@ -98,6 +98,7 @@ export default function Form() {
     const loggedIn = await loggedInResponse.json();
     onSubmitProps.resetForm();
     if (loggedIn) {
+      Cookies.set("token", loggedIn.token);
       dispatch(
         setUser({
           user: loggedIn.user,
@@ -113,7 +114,7 @@ export default function Form() {
     submitProps: FormikHelpers<FormValuesRegister | FormValuesLogin>
   ) => {
     if (isRegister) await register(values as FormValuesRegister, submitProps);
-    if (isLogin) await login(values, submitProps);
+    if (isLogin) await login(values as FormValuesLogin, submitProps);
   };
 
   return (

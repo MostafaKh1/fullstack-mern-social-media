@@ -1,5 +1,5 @@
 import { PostsInterface } from "../../typing";
-import React, { memo } from "react";
+import { memo } from "react";
 import Friends from "../Friends";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import { Button } from "@mui/material";
@@ -7,7 +7,7 @@ import { UseAppSelector, UseAppDispatch } from "../../store";
 import { setPost } from "../../store/postSlice";
 
 function PostList({
-  _id,
+  _id, // post ID
   userId,
   firstName,
   lastName,
@@ -21,10 +21,8 @@ function PostList({
   const userLoggedIn = user?._id || "";
   const dispatch = UseAppDispatch();
   const likeCount = Object.keys(likes).length;
-
-  console.log(likes);
   const isLiked: boolean = Boolean(
-    (likes as unknown as Map<string, boolean>)[userLoggedIn]
+    (likes as unknown as Record<string, boolean>)[userLoggedIn]
   );
 
   const patchLike = async () => {
@@ -42,17 +40,17 @@ function PostList({
   };
 
   return (
-    <div className="rounded-xl   bg-white  md:w-[400px] lg:w-[600px] shadow-lg border border-gray-200  p-4  pb-2 dark:bg-darkMain  dark:border-gray-950">
-      <div className="flex justify-between items-center">
+    <div className="rounded-xl   bg-white  md:w-[400px] lg:w-[600px] h-auto shadow-lg border border-gray-200  p-4  pb-2 dark:bg-darkMain  dark:border-gray-950">
+      <div className=" items-center">
         <Friends
           fullName={`${firstName} ${lastName}`}
           userPicturePath={userPicturePath}
           location={location}
-          userPostId={userId}
+          friendId={userId}
         />
       </div>
-      <div className="py-4">
-        <p className="text-sm text-black dark:text-darkText">{description}</p>
+      <div className="py-4 ">
+        <p className="text-sm text-black  dark:text-darkText">{description}</p>
       </div>
       {picturePath && (
         <div className="w-full max-h-[400px] py-4 overflow-hidden">

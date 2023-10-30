@@ -3,6 +3,7 @@ import Navbar from "../../components/Navbar";
 import UserInfo from "../../components/UserInfo";
 import Post from "../../components/post";
 import { UseAppSelector } from "../../store/";
+import FriendsList from "../../components/friendsList/FriendsList";
 
 function homePage() {
   const { user } = UseAppSelector((state) => state.user);
@@ -14,7 +15,7 @@ function homePage() {
       <div className="container w-screen pt-8 pb-4  flex flex-col  gap-y-8  md:gap-x-8 lg:gap-x-16    md:flex-row md:gap-y-0">
         <UserInfo id={userId} />
         <Post />
-        <div>Friends HERE</div>
+        <FriendsList userId={userId} />
       </div>
     </div>
   );

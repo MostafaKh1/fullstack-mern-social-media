@@ -3,17 +3,17 @@ import UserImage from "./UserImage";
 import { Button } from "@mui/material";
 import { UseAppSelector } from "../store";
 import { UseAppDispatch } from "./../store/index";
-import { setFriend } from "../store/authSlice";
+import { setFriends } from "../store/authSlice";
 
 interface FriendsProps {
-  userPostId: string;
+  friendId: string;
   fullName: string;
   location: string;
   userPicturePath: string;
 }
 
 function Friends({
-  userPostId,
+  friendId,
   fullName,
   location,
   userPicturePath,
@@ -22,13 +22,13 @@ function Friends({
   const id = user?._id || "";
   const dispatch = UseAppDispatch();
 
-  const isFriend = user?.friends.find((friend) => friend._id === userPostId);
-  const sameUser = user?._id === userPostId;
+  const isFriend = user?.friends.find((friend) => friend._id === friendId);
+  const sameUser = user?._id === friendId;
 
   const addFriend = async () => {
     if (!sameUser) {
       const response = await fetch(
-        `http://localhost:5000/users/${id}/${userPostId}`,
+        `http://localhost:5000/users/${id}/${friendId}`,
         {
           method: "PATCH",
           headers: {
@@ -39,17 +39,17 @@ function Friends({
       );
 
       const data = await response.json();
-      dispatch(setFriend(data));
+      dispatch(setFriends(data));
     }
   };
 
   return (
-    <>
-      <div className="flex gap-x-4 items-center">
+    <div className="flex justify-between ">
+      <div className="flex gap-x-4  items-center">
         <UserImage picturePath={userPicturePath} />
-        <div className="flex flex-col">
-          <h5>{fullName}</h5>
-          <span>{location}</span>
+        <div className="flex  px-4 flex-col">
+          <h5 className="text-xl">{fullName}</h5>
+          <span className="text-sm">{location}</span>
         </div>
       </div>
       <div>
@@ -62,7 +62,7 @@ function Friends({
           </Button>
         )}
       </div>
-    </>
+    </div>
   );
 }
 

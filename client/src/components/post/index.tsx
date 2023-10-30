@@ -23,6 +23,7 @@ function Post() {
     const data = await response.json();
     dispatch(setPosts(data));
   };
+  
 
   useEffect(() => {
     getPosts();
@@ -35,6 +36,8 @@ function Post() {
       setPostData([...posts].reverse());
     }
   }, [posts]);
+
+  
 
   return (
     <div>

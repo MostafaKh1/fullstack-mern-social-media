@@ -20,7 +20,7 @@ export interface PostsInterface {
   picturePath: string;
   description: string;
   userPicturePath: string;
-  likes: Map<string, string>;
+  likes: Map<string, boolean>;
   comments: string[];
 }
 

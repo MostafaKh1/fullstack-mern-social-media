@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from "react";
 import UserImage from "./UserImage";
-import { UserInterface } from "../typing";
-import { UseAppSelector } from "../store";
 import { MdLocationPin } from "react-icons/md";
 import { MdWork } from "react-icons/md";
 import { AiFillInstagram } from "react-icons/ai";
 import { AiFillFacebook } from "react-icons/ai";
 import { MdOutlineEdit } from "react-icons/md";
+import useUserInfo from "../hooks/useUserInfo";
 
 interface UserInfoProps {
   id: string;
 }
 
 export default function UserInfo({ id }: UserInfoProps) {
-  const [user, setUser] = useState<UserInterface | null>(null);
-  const { token } = UseAppSelector((state) => state.user);
+  const { user } = useUserInfo(id);
 
   const dataSocial = [
     {
@@ -47,32 +44,10 @@ export default function UserInfo({ id }: UserInfoProps) {
     picturePath,
   } = user || {};
   const Image = picturePath || "";
-
   const fullName = `${firstName ?? ""} ${lastName ?? ""}`;
-  const getUserDate = async () => {
-    try {
-      const response = await fetch(`http://localhost:5000/users/${id}`, {
-        method: "GET",
-        headers: { Authorization: `Decode ${token}` },
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch user data");
-      }
-
-      const data = await response.json();
-      setUser(data);
-    } catch (error) {
-      console.error("An error occurred:", error);
-    }
-  };
-
-  useEffect(() => {
-    getUserDate();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="py-8  px-4 flex flex-col  bg-white shadow-lg   md:w-[300px] lg:w-[500px]  h-[550px]  rounded-xl dark:bg-darkMain">
+    <div className="py-8  px-4 flex flex-col  bg-white shadow-lg   md:w-[19rem] lg:w-[31rem]  h-[35rem]  rounded-xl dark:bg-darkMain">
       <div className=" flex  mb-2 pb-4 items-center">
         <div className="mx-auto">
           <UserImage picturePath={Image} />

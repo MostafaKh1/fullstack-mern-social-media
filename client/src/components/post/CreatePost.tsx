@@ -8,6 +8,7 @@ import { BsCalendarEventFill } from "react-icons/bs";
 import { MdOutlineEdit } from "react-icons/md";
 import { setPosts } from "../../store/postSlice";
 import { UseAppDispatch } from "./../../store/index";
+import useWindowSize from "../../hooks/useWindowSize";
 interface CreatePostProps {
   userId: string;
   image: string;
@@ -16,7 +17,8 @@ interface CreatePostProps {
 function CreatePost({ userId, image, token }: CreatePostProps) {
   const [postText, setPostText] = useState<string>("");
   const [imagePost, setImagePost] = useState<File | null>(null);
-  const iconSize = 28;
+  const { width } = useWindowSize();
+  const iconSize = width < 400 ? 20 : 28;
   const dispatch = UseAppDispatch();
 
   const handlePost = async () => {
@@ -52,7 +54,7 @@ function CreatePost({ userId, image, token }: CreatePostProps) {
     postText,
   ]);
   return (
-    <div className="rounded-xl   bg-white  md:w-[400px] lg:w-[600px] shadow-lg border border-gray-200  p-4  dark:bg-darkMain  dark:border-gray-950">
+    <div className="rounded-xl   bg-white  md:w-[25rem] lg:w-[37.5rem] shadow-lg border border-gray-200   p-3  dark:bg-darkMain  dark:border-gray-950">
       <div className="flex flex-col  gap-y-4 gap-x-4 w-full  justify-between items-center md:flex-row">
         <UserImage picturePath={image} />
         <input
@@ -101,19 +103,22 @@ function CreatePost({ userId, image, token }: CreatePostProps) {
       <div className="flex justify-between items-center px-0 py-2 md:px-3">
         <Button className="flex  flex-col  md:flex-row gap-y-1 items-center gap-x-2">
           <HiPhotograph size={iconSize} className="text-green-700 " />
-          <span className=" text-sm">Photo</span>
+          <span className=" text-xs md:text-sm">Photo</span>
         </Button>
         <Button className="flex flex-col  md:flex-row gap-y-1  items-center  gap-x-2">
           <HiVideoCamera size={iconSize} className="text-red-800" />
-          <span className=" text-sm">Video</span>
+          <span className=" text-xs md:text-sm">Video</span>
         </Button>
-        <Button className="flex flex-col gap-y-1 md:flex-row  items-center  gap-x-2">
-          <BsCalendarEventFill size={iconSize} className="text-orange-300" />
-          <span className=" text-sm">Event</span>
-        </Button>
-        <div>
+        <div className="hidden md:block">
+          <Button className="flex  flex-col  gap-y-1 md:flex-row  items-center  gap-x-2">
+            <BsCalendarEventFill size={iconSize} className="text-orange-300" />
+            <span className=" text-xs md:text-sm">Event</span>
+          </Button>
+        </div>
+        <div className="">
           <Button
             variant="contained"
+            size={width < 400 ? "small" : "medium"}
             color="success"
             onClick={memoizedHandlePost}
           >
