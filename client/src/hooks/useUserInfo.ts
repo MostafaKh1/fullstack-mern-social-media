@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { UserInterface } from "../typing";
 import { UseAppSelector } from "../store";
+import { apiUrl } from "../config";
 
 function useUserInfo(userId: string) {
   const [user, setUser] = useState<UserInterface | null>(null);
@@ -8,7 +9,7 @@ function useUserInfo(userId: string) {
 
   const getUserDate = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/users/${userId}`, {
+      const response = await fetch(`${apiUrl}/users/${userId}`, {
         method: "GET",
         headers: { Authorization: `Decode ${token}` },
       });
