@@ -1,5 +1,5 @@
 const developmentApiUrl = 'http://localhost:5000';
-const deploymentApiUrl = 'https://mern-social-media-app-mft8.onrender.com';
+const deploymentApiUrl = 'https://fullstack-mern-social-media-backend.onrender.com';
 
 
 const isDevelopment = false;
