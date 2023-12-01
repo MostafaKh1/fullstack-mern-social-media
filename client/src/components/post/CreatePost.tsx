@@ -9,6 +9,7 @@ import { MdOutlineEdit } from "react-icons/md";
 import { setPosts } from "../../store/postSlice";
 import { UseAppDispatch } from "./../../store/index";
 import useWindowSize from "../../hooks/useWindowSize";
+import { apiUrl } from "../../config";
 interface CreatePostProps {
   userId: string;
   image: string;
@@ -33,7 +34,7 @@ function CreatePost({ userId, image, token }: CreatePostProps) {
       formData.append("picturePath", imagePost.name);
     }
 
-    const response = await fetch(`http://localhost:5000/posts`, {
+    const response = await fetch(`${apiUrl}/posts`, {
       method: "POST",
       headers: { Authorization: `Decode ${token}` },
       body: formData,
