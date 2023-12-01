@@ -4,6 +4,7 @@ import { Button } from "@mui/material";
 import { UseAppSelector } from "../store";
 import { UseAppDispatch } from "./../store/index";
 import { setFriends } from "../store/authSlice";
+import { apiUrl } from "../config";
 
 interface FriendsProps {
   friendId: string;
@@ -28,7 +29,7 @@ function Friends({
   const addFriend = async () => {
     if (!sameUser) {
       const response = await fetch(
-        `http://localhost:5000/users/${id}/${friendId}`,
+        `${apiUrl}/users/${id}/${friendId}`,
         {
           method: "PATCH",
           headers: {

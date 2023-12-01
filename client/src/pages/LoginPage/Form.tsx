@@ -7,6 +7,7 @@ import { Button } from "@mui/material";
 import { UseAppDispatch } from "../../store";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { apiUrl } from "../../config";
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
@@ -76,7 +77,7 @@ export default function Form() {
       }
     }
 
-    const saveUserRes = await fetch("http://localhost:5000/auth/register", {
+    const saveUserRes = await fetch(`${apiUrl}/auth/register`, {
       method: "POST",
       body: formData,
     });
@@ -90,7 +91,7 @@ export default function Form() {
   };
 
   const login = async (values: FormValuesLogin, onSubmitProps: FormikType) => {
-    const loggedInResponse = await fetch("http://localhost:5000/auth/login", {
+    const loggedInResponse = await fetch(`${apiUrl}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(values),

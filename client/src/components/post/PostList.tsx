@@ -5,6 +5,7 @@ import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import { UseAppSelector, UseAppDispatch } from "../../store";
 import { setPost } from "../../store/postSlice";
+import { apiUrl } from "../../config";
 
 function PostList({
   _id, // post ID
@@ -26,7 +27,7 @@ function PostList({
   );
 
   const patchLike = async () => {
-    const response = await fetch(`http://localhost:5000/posts/${_id}/like`, {
+    const response = await fetch(`${apiUrl}/posts/${_id}/like`, {
       method: "PATCH",
       headers: {
         Authorization: `Decode ${token}`,
@@ -55,7 +56,7 @@ function PostList({
       {picturePath && (
         <div className="w-full max-h-[400px] py-4 overflow-hidden">
           <img
-            src={`http://localhost:5000/assets/${picturePath}`}
+            src={`${apiUrl}/assets/${picturePath}`}
             className="w-full max-h-[400px] object-cover object-center"
             alt="Post Image"
           />

@@ -2,6 +2,7 @@ import { UseAppDispatch, UseAppSelector } from "./../../store/index";
 import { setFriends } from "../../store/authSlice";
 import { useEffect } from "react";
 import Friends from "../Friends";
+import { apiUrl } from "../../config";
 
 interface FriendsListProps {
   userId: string;
@@ -14,7 +15,7 @@ function FriendsList({ userId }: FriendsListProps) {
 
   const getFriends = async () => {
     const response = await fetch(
-      `http://localhost:5000/users/${userId}/friends`,
+      `${apiUrl}/users/${userId}/friends`,
       {
         method: "GET",
         headers: {
