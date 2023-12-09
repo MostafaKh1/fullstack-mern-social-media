@@ -17,6 +17,7 @@ interface CreatePostProps {
 }
 function CreatePost({ userId, image, token }: CreatePostProps) {
   const [postText, setPostText] = useState<string>("");
+  const [disableButton,setDisableButton] =  useState(false)
   const [imagePost, setImagePost] = useState<File | null>(null);
   const { width } = useWindowSize();
   const iconSize = width < 400 ? 20 : 28;
@@ -26,6 +27,9 @@ function CreatePost({ userId, image, token }: CreatePostProps) {
     if (!imagePost && !postText) {
       return true;
     }
+
+    setDisableButton(true)
+
     const formData = new FormData();
     formData.append("userId", userId);
     formData.append("description", postText);
@@ -34,17 +38,26 @@ function CreatePost({ userId, image, token }: CreatePostProps) {
       formData.append("picturePath", imagePost.name);
     }
 
+   try {
     const response = await fetch(`${apiUrl}/posts`, {
       method: "POST",
       headers: { Authorization: `Decode ${token}` },
       body: formData,
     });
+    setDisableButton(true)
     const posts = await response.json();
     if (posts) {
       dispatch(setPosts(posts));
       setImagePost(null);
       setPostText("");
+      setDisableButton(false)
     }
+   } catch (error) {
+    console.error('Error posting:', error);
+   } 
+   finally {
+    setDisableButton(false); 
+  }
   };
 
   const memoizedHandlePost = useCallback(handlePost, [
@@ -54,8 +67,9 @@ function CreatePost({ userId, image, token }: CreatePostProps) {
     imagePost,
     postText,
   ]);
+  //  md:w-[25rem] lg:w-[37.5rem]
   return (
-    <div className="rounded-xl   bg-white  md:w-[25rem] lg:w-[37.5rem] shadow-lg border border-gray-200   p-3  dark:bg-darkMain  dark:border-gray-950">
+    <div className="rounded-xl  flex flex-col  bg-white  w-full shadow-lg border border-gray-200   p-3  dark:bg-darkMain  dark:border-gray-950">
       <div className="flex flex-col  gap-y-4 gap-x-4 w-full  justify-between items-center md:flex-row">
         <UserImage picturePath={image} />
         <input
@@ -122,8 +136,10 @@ function CreatePost({ userId, image, token }: CreatePostProps) {
             size={width < 400 ? "small" : "medium"}
             color="success"
             onClick={memoizedHandlePost}
+            disabled={disableButton}
+            
           >
-            Post
+           <span className="text-white"> Post</span>
           </Button>
         </div>
       </div>

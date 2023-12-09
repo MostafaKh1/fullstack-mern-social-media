@@ -47,7 +47,8 @@ export default function UserInfo({ id }: UserInfoProps) {
   const fullName = `${firstName ?? ""} ${lastName ?? ""}`;
 
   return (
-    <div className="py-8  px-4 flex flex-col  bg-white shadow-lg   md:w-[19rem] lg:w-[31rem]  h-[35rem]  rounded-xl dark:bg-darkMain">
+    <div className=" flex flex-col     md:w-[19rem] lg:w-[31rem]">
+      <div className="bg-white shadow-lg py-8  px-4   rounded-xl dark:bg-darkMain">
       <div className=" flex  mb-2 pb-4 items-center">
         <div className="mx-auto">
           <UserImage picturePath={Image} />
@@ -78,11 +79,11 @@ export default function UserInfo({ id }: UserInfoProps) {
       <hr />
       <div className="py-4">
         <div className="flex mb-2 justify-between">
-          <p>who's viewed your profile</p>
+          <p className="text-sm md:text-base">who's viewed your profile</p>
           <span>{viewedProfile}</span>
         </div>
         <div className="flex justify-between">
-          <p>impressions of your post</p>
+          <p >impressions of your post</p>
           <span>{impression}</span>
         </div>
       </div>
@@ -121,6 +122,7 @@ export default function UserInfo({ id }: UserInfoProps) {
               // Add <hr /> except for the last item
             })}
         </div>
+      </div>
       </div>
     </div>
   );

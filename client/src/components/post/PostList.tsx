@@ -41,7 +41,7 @@ function PostList({
   };
 
   return (
-    <div className="rounded-xl   bg-white  md:w-[400px] lg:w-[600px] h-auto shadow-lg border border-gray-200  p-4  pb-2 dark:bg-darkMain  dark:border-gray-950">
+    <div className="rounded-xl   bg-white  w-full h-auto shadow-lg border border-gray-200  p-4  pb-2 dark:bg-darkMain  dark:border-gray-950">
       <div className=" items-center">
         <Friends
           fullName={`${firstName} ${lastName}`}
