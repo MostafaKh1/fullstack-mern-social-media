@@ -69,8 +69,9 @@ function CreatePost({ userId, image, token }: CreatePostProps) {
   ]);
   //  md:w-[25rem] lg:w-[37.5rem]
   return (
-    <div className="rounded-xl  flex flex-col  bg-white  w-full shadow-lg border border-gray-200   p-3  dark:bg-darkMain  dark:border-gray-950">
-      <div className="flex flex-col  gap-y-4 gap-x-4 w-full  justify-between items-center md:flex-row">
+    <div className="rounded-xl  flex flex-col   w-full ">
+   <div className="bg-white rounded-xl border border-gray-200   p-3  dark:bg-darkMain  dark:border-gray-950">
+   <div className="flex flex-col  gap-y-4 gap-x-4 w-full  justify-between items-center md:flex-row">
         <UserImage picturePath={image} />
         <input
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -139,10 +140,11 @@ function CreatePost({ userId, image, token }: CreatePostProps) {
             disabled={disableButton}
             
           >
-           <span className="text-white"> Post</span>
+           <span className={`text-white w-[60px]`}>{disableButton ? "Loading" : "Post"}</span>
           </Button>
         </div>
       </div>
+   </div>
     </div>
   );
 }
