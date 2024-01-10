@@ -38,9 +38,13 @@ export const authSlice = createSlice({
     setTokenFromCookie: (state, action: PayloadAction<string | null>) => {
       state.token = action.payload;
     },
+    Logout: (state) => {
+      state.user = null
+      state.token = null
+    }
   },
 });
 
 export default authSlice;
 
-export const { setUser, setFriends, setTokenFromCookie } = authSlice.actions;
+export const { setUser, setFriends, setTokenFromCookie, Logout } = authSlice.actions;

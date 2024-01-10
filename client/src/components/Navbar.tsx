@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,  } from "react";
 import { Button, Menu, MenuItem } from "@mui/material";
 import { Person, DarkMode, LightMode } from "@mui/icons-material";
-import { UseAppSelector } from "../store";
 import useTheme from "../hooks/useTheme";
+import { UseAppDispatch } from "../store";
+import { Logout } from "../store/authSlice";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
   const [menu, setMenu] = useState<null | HTMLElement>(null);
-  const [fullName, setFullName] = useState<string | null>(null);
   const open = Boolean(menu);
-  const { user } = UseAppSelector((state) => state.user);
+  const dispatch = UseAppDispatch()
+  const navigate = useNavigate();
+  
 
   const { theme, switchTheme } = useTheme();
 
@@ -19,13 +22,11 @@ function Navbar() {
   const handleClose = () => {
     setMenu(null);
   };
-
-  useEffect(() => {
-    if (user) {
-      const { firstName, lastName } = user;
-      setFullName(firstName + lastName);
-    }
-  }, [user]);
+   const handelLogout = ( ) => {
+    dispatch(Logout)
+    navigate('/')
+   }
+ 
   return (
     <nav className="container py-5  ">
       <div className="flex justify-between">
@@ -58,7 +59,7 @@ function Navbar() {
               "aria-labelledby": "basic-button",
             }}
           >
-            <MenuItem>{fullName}</MenuItem>
+            <MenuItem onClick={handelLogout}>Log out</MenuItem>
             <MenuItem className="cursor-pointer" onClick={handleClose}>
               Profile Page
             </MenuItem>

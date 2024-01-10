@@ -95,9 +95,14 @@ export default function Form() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(values),
-    });
+    })
+    if (!loggedInResponse.ok) {
+      return;
+    }
     const loggedIn = await loggedInResponse.json();
     onSubmitProps.resetForm();
+
+    
     if (loggedIn) {
       Cookies.set("token", loggedIn.token);
       dispatch(
